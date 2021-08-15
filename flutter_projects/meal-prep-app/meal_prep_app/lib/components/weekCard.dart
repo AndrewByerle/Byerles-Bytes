@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:meal_prep_app/screens/planner/popupCard.dart';
 
-class WeekCard extends StatelessWidget {
+class WeekCard extends StatefulWidget {
   final String name;
-
   WeekCard({this.name});
 
+  @override
+  _WeekCardState createState() => _WeekCardState();
+}
+
+class _WeekCardState extends State<WeekCard> {
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -23,17 +28,27 @@ class WeekCard extends StatelessWidget {
                       children: [
                         Container(
                             width: 140,
-                            child: Text(name,
+                            child: Text(widget.name,
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
-                                    fontSize: 16, fontWeight: FontWeight.bold)))
+                                    fontSize: widget.name == '+' ? (40) : (16),
+                                    fontWeight: FontWeight.bold)))
                       ]),
                 ),
                 Positioned.fill(
                     child: Material(
                         color: Colors.transparent,
                         child: InkWell(
-                          onTap: () {},
+                          onTap: () {
+                            widget.name == '+'
+                                ? showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return PopupCard();
+                                    })
+                                // ignore: unnecessary_statements
+                                : ({});
+                          },
                         )))
               ],
             ),

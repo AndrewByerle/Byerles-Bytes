@@ -11,7 +11,7 @@ class WeekView extends StatefulWidget {
 
 class _WeekViewState extends State<WeekView> {
   List<Widget> children;
-  List<String> weeks = [
+  List<String> days = [
     'Monday',
     'Tuesday',
     'Wednesday',
@@ -29,7 +29,7 @@ class _WeekViewState extends State<WeekView> {
 
   void getWeekList() {
     List<Widget> newChildren = [];
-    for (String day in weeks) {
+    for (String day in days) {
       newChildren.add(Padding(
         padding: const EdgeInsets.all(8.0),
         child: WeekCard(name: day),
