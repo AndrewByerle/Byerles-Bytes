@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:meal_prep_app/components/background.dart';
 import 'package:meal_prep_app/components/weekCard.dart';
-import 'package:meal_prep_app/screens/home/components/background.dart';
 
 class WeekView extends StatefulWidget {
   WeekView({Key key}) : super(key: key);

@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:meal_prep_app/screens/planner/weekView.dart';
-import 'components/background.dart';
-// import 'package:simple_animations/simple_animations.dart';
-// import 'package:supercharged/supercharged.dart';
+import 'package:meal_prep_app/components/background.dart';
+import 'package:meal_prep_app/screens/weekView/weekView.dart';
+// import 'components/background.dart';
 
 class Home extends StatelessWidget {
   const Home({Key key}) : super(key: key);

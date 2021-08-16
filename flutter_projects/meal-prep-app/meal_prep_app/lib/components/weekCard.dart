@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:meal_prep_app/screens/planner/popupCard.dart';
+import 'package:meal_prep_app/screens/dayView.dart/dayView.dart';
+import 'package:meal_prep_app/screens/weekView/components/popupCard.dart';
 
 class WeekCard extends StatefulWidget {
   final String name;
-  WeekCard({this.name});
+  const WeekCard({this.name});
 
   @override
   _WeekCardState createState() => _WeekCardState();
@@ -47,7 +48,13 @@ class _WeekCardState extends State<WeekCard> {
                                       return PopupCard();
                                     })
                                 // ignore: unnecessary_statements
-                                : ({});
+                                : ({
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                DayView(widget.name)))
+                                  });
                           },
                         )))
               ],
