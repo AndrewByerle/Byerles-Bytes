@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:meal_prep_app/components/data/dayInfo.dart';
 
 class DropDown extends StatefulWidget {
   final List<String> items;
@@ -36,6 +37,13 @@ class _DropDownState extends State<DropDown> {
           onChanged: (String value) {
             setState(() {
               _chosenValue = value;
+              if (widget.hint == "Pick a Day") {
+                tempInfo['day'] = _chosenValue;
+                print(tempInfo['day']);
+              } else {
+                tempInfo['time'] = _chosenValue;
+                print(tempInfo['time']);
+              }
             });
           },
         ),

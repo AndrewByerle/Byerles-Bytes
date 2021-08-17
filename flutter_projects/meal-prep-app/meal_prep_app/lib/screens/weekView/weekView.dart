@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:meal_prep_app/components/background.dart';
-import 'package:meal_prep_app/components/weekCard.dart';
+import 'package:meal_prep_app/components/dayCard.dart';
+import 'package:meal_prep_app/components/data/days.dart';
 
 class WeekView extends StatefulWidget {
   WeekView({Key key}) : super(key: key);
@@ -11,15 +12,6 @@ class WeekView extends StatefulWidget {
 
 class _WeekViewState extends State<WeekView> {
   List<Widget> children;
-  List<String> days = [
-    'Monday',
-    'Tuesday',
-    'Wednesday',
-    'Thursday',
-    'Friday',
-    'Saturday',
-    'Sunday'
-  ];
 
   @override
   void initState() {
@@ -29,21 +21,22 @@ class _WeekViewState extends State<WeekView> {
 
   void getWeekList() {
     List<Widget> newChildren = [];
+    // days list in components
     for (String day in days) {
       newChildren.add(Padding(
         padding: const EdgeInsets.all(8.0),
-        child: WeekCard(name: day),
+        child: DayCard(name: day),
       ));
     }
     children = newChildren;
     children.add(Padding(
       padding: const EdgeInsets.all(8.0),
-      child: WeekCard(name: '+'),
+      child: DayCard(name: '+'),
     ));
 
-    // setState(() {
-    //   children = newChildren;
-    // });
+    setState(() {
+      children = newChildren;
+    });
   }
 
   @override

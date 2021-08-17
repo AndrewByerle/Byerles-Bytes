@@ -1,22 +1,40 @@
 import 'package:flutter/material.dart';
+import 'package:meal_prep_app/components/data/dayInfo.dart';
+import 'package:meal_prep_app/components/data/days.dart';
 import 'package:meal_prep_app/screens/weekView/components/dropDown.dart';
 
-class PopupCard extends StatelessWidget {
+class PopupCard extends StatefulWidget {
   // const
   PopupCard({
     Key key,
   }) : super(key: key);
 
-  final List<String> days = [
-    'Monday',
-    'Tuesday',
-    'Wednesday',
-    'Thursday',
-    'Friday',
-    'Saturday',
-    'Sunday'
-  ];
+  @override
+  _PopupCardState createState() => _PopupCardState();
+}
+
+class _PopupCardState extends State<PopupCard> {
   final List<String> times = ['Breakfast', 'Lunch', 'Dinner', 'Snack'];
+
+  TextEditingController textFieldController = TextEditingController();
+
+  void _sendDataToDayViewScreen(context) {
+    String inputMeal = textFieldController.text;
+    tempInfo['meal'] = inputMeal;
+    print(tempInfo['meal']);
+    dayInfo[tempInfo['day']] = [tempInfo['time'], tempInfo['meal']];
+    // dayInfo.forEach((key, value) {
+    //   for (String val in value) {
+    //     print(val);
+    //   }
+    // });
+
+    // Navigator.push(
+    //     context,
+    //     MaterialPageRoute(
+    //       builder: (context) => SecondScreen(text: textToSend,),
+    //     ));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -46,16 +64,22 @@ class PopupCard extends StatelessWidget {
               DropDown('Time: ', times, 'Pick a Time'),
             ],
           ),
-          // DropDown('Meal: ', times, 'Pick a Time'),
           TextFormField(
             decoration: InputDecoration(
               labelText: 'Search for Meal',
               icon: Icon(Icons.add_box_sharp),
             ),
+            controller: textFieldController,
           )
         ],
       ),
-      actions: [ElevatedButton(child: Text("Submit"), onPressed: () {})],
+      actions: [
+        ElevatedButton(
+            child: Text("Submit"),
+            onPressed: () {
+              _sendDataToDayViewScreen(context);
+            })
+      ],
     );
   }
 }

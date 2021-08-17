@@ -2,15 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:meal_prep_app/screens/dayView.dart/dayView.dart';
 import 'package:meal_prep_app/screens/weekView/components/popupCard.dart';
 
-class WeekCard extends StatefulWidget {
+class DayCard extends StatefulWidget {
   final String name;
-  const WeekCard({this.name});
+  const DayCard({this.name});
 
   @override
-  _WeekCardState createState() => _WeekCardState();
+  _DayCardState createState() => _DayCardState();
 }
 
-class _WeekCardState extends State<WeekCard> {
+class _DayCardState extends State<DayCard> {
+  String inputDay = "";
+  String inputTime = "";
+  String inputMeal = "";
+
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -41,20 +45,23 @@ class _WeekCardState extends State<WeekCard> {
                         color: Colors.transparent,
                         child: InkWell(
                           onTap: () {
-                            widget.name == '+'
-                                ? showDialog(
-                                    context: context,
-                                    builder: (BuildContext context) {
-                                      return PopupCard();
-                                    })
-                                // ignore: unnecessary_statements
-                                : ({
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                DayView(widget.name)))
+                            if (widget.name == '+') {
+                              showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return PopupCard();
                                   });
+                            } else {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => DayView(
+                                            widget.name,
+                                            // inputDay,
+                                            // inputMeal,
+                                            // inputTime
+                                          )));
+                            }
                           },
                         )))
               ],
