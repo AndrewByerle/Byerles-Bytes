@@ -11,9 +11,9 @@ class DayCard extends StatefulWidget {
 }
 
 class _DayCardState extends State<DayCard> {
-  String inputDay = "";
-  String inputTime = "";
-  String inputMeal = "";
+  // String inputDay = "";
+  // String inputTime = "";
+  // String inputMeal = "";
 
   @override
   Widget build(BuildContext context) {
@@ -55,12 +55,8 @@ class _DayCardState extends State<DayCard> {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => DayView(
-                                            widget.name,
-                                            // inputDay,
-                                            // inputMeal,
-                                            // inputTime
-                                          )));
+                                      builder: (context) =>
+                                          DayView(widget.name)));
                             }
                           },
                         )))

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:meal_prep_app/components/data/dayInfo.dart';
+import 'package:meal_prep_app/models/recipeData.dart';
 
 class DayView extends StatefulWidget {
   final String name;
@@ -20,9 +21,21 @@ class _DayViewState extends State<DayView> {
   String inputTime = "";
   String inputMeal = "Text";
 
+  RecipeData data;
+
+  Future<void> fetchData() async {
+    RecipeData instance = new RecipeData(query: 'pasta and red sauce');
+    await instance.getData();
+
+    setState(() {
+      data = instance;
+    });
+  }
+
   @override
   void initState() {
     super.initState();
+    fetchData();
     getDayViewInput();
   }
 
@@ -56,6 +69,8 @@ class _DayViewState extends State<DayView> {
               ),
               Text(inputTime, style: TextStyle(color: Colors.pink)),
               Text(inputMeal, style: TextStyle(color: Colors.pink)),
+              Image(image: NetworkImage(data.image)),
+              Text('${data.url}', style: TextStyle(color: Colors.pink)),
             ],
           ),
         ));
