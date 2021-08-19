@@ -11,10 +11,6 @@ class DayCard extends StatefulWidget {
 }
 
 class _DayCardState extends State<DayCard> {
-  // String inputDay = "";
-  // String inputTime = "";
-  // String inputMeal = "";
-
   @override
   Widget build(BuildContext context) {
     return Card(

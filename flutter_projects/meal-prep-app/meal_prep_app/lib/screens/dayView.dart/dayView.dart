@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:meal_prep_app/components/data/dayInfo.dart';
+import 'package:meal_prep_app/components/loading.dart';
 import 'package:meal_prep_app/models/recipeData.dart';
 
 class DayView extends StatefulWidget {
   final String name;
-  // String inputDay = "";
-  // String inputTime = "";
-  // String inputMeal = "";
   // DayView(this.name, this.inputDay, this.inputTime, this.inputMeal);
   DayView(this.name);
   // Second Constructor
@@ -19,12 +17,11 @@ class DayView extends StatefulWidget {
 class _DayViewState extends State<DayView> {
   String inputDay = "";
   String inputTime = "";
-  String inputMeal = "Text";
-
+  String inputMeal = "";
   RecipeData data;
 
   Future<void> fetchData() async {
-    RecipeData instance = new RecipeData(query: 'pasta and red sauce');
+    RecipeData instance = new RecipeData(query: dayInfo[widget.name][1]);
     await instance.getData();
 
     setState(() {
@@ -35,7 +32,10 @@ class _DayViewState extends State<DayView> {
   @override
   void initState() {
     super.initState();
-    fetchData();
+    if (dayInfo[widget.name] != null) {
+      fetchData();
+      print('fetched data');
+    }
     getDayViewInput();
   }
 
@@ -49,30 +49,40 @@ class _DayViewState extends State<DayView> {
     });
   }
 
+  Widget getInputDescriptions() {
+    if (data != null) {
+      return Container(
+        child: Column(
+          children: [
+            Image(image: NetworkImage(data.image)),
+            Text('${data.url}', style: TextStyle(color: Colors.pink)),
+            Text('${data.label}', style: TextStyle(color: Colors.pink)),
+            Text('${data.calories}', style: TextStyle(color: Colors.pink))
+          ],
+        ),
+      );
+    }
+    return Text('Browse for a meal');
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(title: Text(widget.name)),
-        body: Container(
-          child: Column(
-            children: [
-              TextField(
-                decoration: InputDecoration(
-                    hintText: "Plan a meal...",
-                    hintStyle: TextStyle(color: Colors.black, fontSize: 18),
-                    border: InputBorder.none),
-                style: TextStyle(color: Colors.black, fontSize: 18),
+    return (data == null && dayInfo[widget.name] != null)
+        ? Loading()
+        : Scaffold(
+            appBar: AppBar(title: Text(widget.name)),
+            body: Container(
+              child: Column(
+                children: [
+                  Text(
+                    inputDay,
+                    style: TextStyle(color: Colors.pink),
+                  ),
+                  Text(inputTime, style: TextStyle(color: Colors.pink)),
+                  Text(inputMeal, style: TextStyle(color: Colors.pink)),
+                  getInputDescriptions(),
+                ],
               ),
-              Text(
-                inputDay,
-                style: TextStyle(color: Colors.pink),
-              ),
-              Text(inputTime, style: TextStyle(color: Colors.pink)),
-              Text(inputMeal, style: TextStyle(color: Colors.pink)),
-              Image(image: NetworkImage(data.image)),
-              Text('${data.url}', style: TextStyle(color: Colors.pink)),
-            ],
-          ),
-        ));
+            ));
   }
 }
