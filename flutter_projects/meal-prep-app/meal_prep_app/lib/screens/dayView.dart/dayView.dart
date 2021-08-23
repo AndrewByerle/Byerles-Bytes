@@ -15,7 +15,7 @@ class DayView extends StatefulWidget {
 }
 
 class _DayViewState extends State<DayView> {
-  String inputDay = "";
+  // String inputDay = "";
   String inputTime = "";
   String inputMeal = "";
   RecipeData data;
@@ -54,10 +54,35 @@ class _DayViewState extends State<DayView> {
       return Container(
         child: Column(
           children: [
-            Image(image: NetworkImage(data.image)),
-            Text('${data.url}', style: TextStyle(color: Colors.pink)),
-            Text('${data.label}', style: TextStyle(color: Colors.pink)),
-            Text('${data.calories}', style: TextStyle(color: Colors.pink))
+            Image(
+                image: NetworkImage(data.image),
+                fit: BoxFit.fill,
+                width: double.maxFinite,
+                // scale img height
+                height: MediaQuery.of(context).size.height / 2.5),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(inputTime + ":",
+                    style: TextStyle(color: Colors.black, fontSize: 24)),
+                SizedBox(
+                  width: 20,
+                ),
+                Text(inputMeal,
+                    style: TextStyle(color: Colors.black, fontSize: 24)),
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text("Calories:", style: TextStyle(fontSize: 24)),
+                SizedBox(width: 20),
+                Text('${data.calories}',
+                    style: TextStyle(color: Colors.black, fontSize: 24))
+              ],
+            ),
+            Text('${data.url}', style: TextStyle(color: Colors.black)),
+            Text('${data.label}', style: TextStyle(color: Colors.black)),
           ],
         ),
       );
@@ -74,12 +99,6 @@ class _DayViewState extends State<DayView> {
             body: Container(
               child: Column(
                 children: [
-                  Text(
-                    inputDay,
-                    style: TextStyle(color: Colors.pink),
-                  ),
-                  Text(inputTime, style: TextStyle(color: Colors.pink)),
-                  Text(inputMeal, style: TextStyle(color: Colors.pink)),
                   getInputDescriptions(),
                 ],
               ),

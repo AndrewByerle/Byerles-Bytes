@@ -47,7 +47,7 @@ class _PopupCardState extends State<PopupCard> {
           'Plan Meal',
           style: TextStyle(color: Colors.white, fontSize: 25),
         ),
-        color: Colors.purple[700],
+        color: Colors.pinkAccent,
         height: 70,
       ),
       content: Column(
