@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:meal_prep_app/components/data/dayInfo.dart';
 import 'package:meal_prep_app/components/loading.dart';
 import 'package:meal_prep_app/models/recipeData.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class DayView extends StatefulWidget {
   final String name;
@@ -49,6 +50,15 @@ class _DayViewState extends State<DayView> {
     });
   }
 
+  _launchURL() async {
+    // if (await canLaunch(data.url)) {
+    //   await launch(data.url);
+    // } else {
+    //   throw 'Could not launch ${data.url}';
+    // }
+    await launch(data.url);
+  }
+
   Widget getInputDescriptions() {
     if (data != null) {
       return Container(
@@ -60,29 +70,69 @@ class _DayViewState extends State<DayView> {
                 width: double.maxFinite,
                 // scale img height
                 height: MediaQuery.of(context).size.height / 2.5),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
+            Column(
               children: [
-                Text(inputTime + ":",
-                    style: TextStyle(color: Colors.black, fontSize: 24)),
-                SizedBox(
-                  width: 20,
+                Row(
+                  children: [
+                    SizedBox(width: 50),
+                    Text(inputTime + ":",
+                        style: TextStyle(color: Colors.black, fontSize: 24)),
+                    SizedBox(
+                      width: 50,
+                    ),
+                    Text(inputMeal,
+                        style: TextStyle(color: Colors.black, fontSize: 24)),
+                  ],
                 ),
-                Text(inputMeal,
-                    style: TextStyle(color: Colors.black, fontSize: 24)),
+                Row(
+                  children: [
+                    SizedBox(
+                      width: 50,
+                    ),
+                    Text("Calories:", style: TextStyle(fontSize: 24)),
+                    SizedBox(width: 28),
+                    Text('${data.calories}',
+                        style: TextStyle(color: Colors.black, fontSize: 24))
+                  ],
+                ),
+                // Text('${data.url}', style: TextStyle(color: Colors.black)),
+                // Text('${data.label}', style: TextStyle(color: Colors.black)),
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(4),
+                  child: Stack(
+                    children: <Widget>[
+                      Positioned.fill(
+                        child: Container(
+                          decoration: const BoxDecoration(
+                            gradient: LinearGradient(
+                              colors: <Color>[
+                                // Color(0xFF0D47A1),
+                                // Color(0xFF1976D2),
+                                // Color(0xFF42A5F5),
+                                Colors.green,
+                                Colors.green,
+                                Colors.lightGreen
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                      TextButton(
+                        style: TextButton.styleFrom(
+                          padding: const EdgeInsets.all(16.0),
+                          primary: Colors.white,
+                          textStyle: const TextStyle(fontSize: 20),
+                        ),
+                        onPressed: () {
+                          _launchURL();
+                        },
+                        child: Text('${data.label}'),
+                      ),
+                    ],
+                  ),
+                ),
               ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text("Calories:", style: TextStyle(fontSize: 24)),
-                SizedBox(width: 20),
-                Text('${data.calories}',
-                    style: TextStyle(color: Colors.black, fontSize: 24))
-              ],
-            ),
-            Text('${data.url}', style: TextStyle(color: Colors.black)),
-            Text('${data.label}', style: TextStyle(color: Colors.black)),
+            )
           ],
         ),
       );
