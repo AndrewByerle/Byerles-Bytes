@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:meal_prep_app/components/data/dayInfo.dart';
 import 'package:meal_prep_app/components/loading.dart';
 import 'package:meal_prep_app/models/recipeData.dart';
+import 'package:meal_prep_app/screens/dayView.dart/components/mealCard.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class DayView extends StatefulWidget {
@@ -20,14 +21,35 @@ class _DayViewState extends State<DayView> {
   String inputTime = "";
   String inputMeal = "";
   RecipeData data;
+  RecipeData data2;
+  RecipeData data3;
+  RecipeData data4;
 
   Future<void> fetchData() async {
     RecipeData instance = new RecipeData(query: dayInfo[widget.name][1]);
-    await instance.getData();
+    await instance.getData(0);
+
+    RecipeData instance2 = new RecipeData(query: dayInfo[widget.name][1]);
+    await instance2.getData(1);
+
+    RecipeData instance3 = new RecipeData(query: dayInfo[widget.name][1]);
+    await instance3.getData(2);
+
+    RecipeData instance4 = new RecipeData(query: dayInfo[widget.name][1]);
+    await instance4.getData(3);
 
     setState(() {
       data = instance;
+      print('setdata');
+      data2 = instance2;
+      print('setdata2');
+      data3 = instance3;
+      data4 = instance4;
     });
+
+    // setState(() {
+    //   data = instance;
+    // });
   }
 
   @override
@@ -51,12 +73,21 @@ class _DayViewState extends State<DayView> {
   }
 
   _launchURL() async {
-    // if (await canLaunch(data.url)) {
-    //   await launch(data.url);
-    // } else {
-    //   throw 'Could not launch ${data.url}';
-    // }
-    await launch(data.url);
+    if (await canLaunch(data.url)) {
+      await launch(data.url);
+    } else {
+      throw 'Could not launch ${data.url}';
+    }
+    // await launch(data.url);
+  }
+
+  List<Widget> generateMealCards() {
+    List<Widget> children = [];
+    print(data2.name);
+    children.add(MealCard(name: data2.label, data: data2));
+    children.add(MealCard(name: data3.label, data: data3));
+    children.add(MealCard(name: data4.label, data: data4));
+    return children;
   }
 
   Widget getInputDescriptions() {
@@ -70,69 +101,71 @@ class _DayViewState extends State<DayView> {
                 width: double.maxFinite,
                 // scale img height
                 height: MediaQuery.of(context).size.height / 2.5),
-            Column(
-              children: [
-                Row(
-                  children: [
-                    SizedBox(width: 50),
-                    Text(inputTime + ":",
-                        style: TextStyle(color: Colors.black, fontSize: 24)),
-                    SizedBox(
-                      width: 50,
-                    ),
-                    Text(inputMeal,
-                        style: TextStyle(color: Colors.black, fontSize: 24)),
-                  ],
-                ),
-                Row(
-                  children: [
-                    SizedBox(
-                      width: 50,
-                    ),
-                    Text("Calories:", style: TextStyle(fontSize: 24)),
-                    SizedBox(width: 28),
-                    Text('${data.calories}',
-                        style: TextStyle(color: Colors.black, fontSize: 24))
-                  ],
-                ),
-                // Text('${data.url}', style: TextStyle(color: Colors.black)),
-                // Text('${data.label}', style: TextStyle(color: Colors.black)),
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(4),
-                  child: Stack(
-                    children: <Widget>[
-                      Positioned.fill(
-                        child: Container(
-                          decoration: const BoxDecoration(
-                            gradient: LinearGradient(
-                              colors: <Color>[
-                                // Color(0xFF0D47A1),
-                                // Color(0xFF1976D2),
-                                // Color(0xFF42A5F5),
-                                Colors.green,
-                                Colors.green,
-                                Colors.lightGreen
-                              ],
-                            ),
+            Padding(
+              padding: EdgeInsets.fromLTRB(0, 15, 0, 0),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(4),
+                child: Stack(
+                  children: <Widget>[
+                    Positioned.fill(
+                      child: Container(
+                        decoration: const BoxDecoration(
+                          gradient: LinearGradient(
+                            colors: <Color>[
+                              // Color(0xFF0D47A1),
+                              // Color(0xFF1976D2),
+                              // Color(0xFF42A5F5),
+                              Colors.green,
+                              Colors.lightGreen,
+                              Colors.green,
+                            ],
                           ),
                         ),
                       ),
-                      TextButton(
-                        style: TextButton.styleFrom(
-                          padding: const EdgeInsets.all(16.0),
-                          primary: Colors.white,
-                          textStyle: const TextStyle(fontSize: 20),
-                        ),
-                        onPressed: () {
-                          _launchURL();
-                        },
-                        child: Text('${data.label}'),
+                    ),
+                    TextButton(
+                      style: TextButton.styleFrom(
+                        padding: const EdgeInsets.all(16.0),
+                        primary: Colors.white,
+                        textStyle: const TextStyle(fontSize: 20),
                       ),
-                    ],
-                  ),
+                      onPressed: () {
+                        _launchURL();
+                      },
+                      child: Text('${data.label}'),
+                    ),
+                  ],
                 ),
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.fromLTRB(0, 40, 0, 40),
+              child: Row(
+                children: [
+                  SizedBox(width: 50),
+                  Text(inputTime + ":",
+                      style: TextStyle(color: Colors.black, fontSize: 24)),
+                  SizedBox(
+                    width: 50,
+                  ),
+                  Text(inputMeal,
+                      style: TextStyle(color: Colors.black, fontSize: 24)),
+                ],
+              ),
+            ),
+            Row(
+              children: [
+                SizedBox(
+                  width: 50,
+                ),
+                Text("Calories:", style: TextStyle(fontSize: 24)),
+                SizedBox(width: 28),
+                Text('${data.calories}',
+                    style: TextStyle(color: Colors.black, fontSize: 24))
               ],
-            )
+            ),
+            ScrollNeighbors(children: generateMealCards()),
+            // MealCard(name: data2.label, data: data2)
           ],
         ),
       );
@@ -153,5 +186,20 @@ class _DayViewState extends State<DayView> {
                 ],
               ),
             ));
+  }
+}
+
+class ScrollNeighbors extends StatelessWidget {
+  const ScrollNeighbors({
+    Key key,
+    @required this.children,
+  }) : super(key: key);
+
+  final List<Widget> children;
+
+  @override
+  Widget build(BuildContext context) {
+    return SingleChildScrollView(
+        scrollDirection: Axis.horizontal, child: Row(children: children));
   }
 }

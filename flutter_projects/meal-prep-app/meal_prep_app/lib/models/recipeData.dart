@@ -9,12 +9,13 @@ class RecipeData {
   String calories;
   String label;
   String url;
+  int page;
 
-  RecipeData({this.query});
+  RecipeData({this.query, this.page});
 
   //async used for data from API
 
-  Future<void> getData() async {
+  Future<void> getData(page) async {
     try {
       //Get Data
       const APP_ID = '5444c14e';
@@ -26,12 +27,12 @@ class RecipeData {
       Map data = jsonDecode(response.body);
 
       //Set Fields
-      image = data["hits"][0]["recipe"]["image"];
-      label = data["hits"][0]["recipe"]["label"];
+      image = data["hits"][page]["recipe"]["image"];
+      label = data["hits"][page]["recipe"]["label"];
 
-      url = data["hits"][0]["recipe"]["url"];
-      String longDecimalCalories = data["hits"][0]["recipe"]["totalNutrients"]
-              ["ENERC_KCAL"]["quantity"]
+      url = data["hits"][page]["recipe"]["url"];
+      String longDecimalCalories = data["hits"][page]["recipe"]
+              ["totalNutrients"]["ENERC_KCAL"]["quantity"]
           .toString();
       calories = longDecimalCalories.split(".")[0];
       print(calories);
