@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:meal_prep_app/components/data/dayInfo.dart';
+import 'package:meal_prep_app/components/dayCard.dart';
 import 'package:meal_prep_app/components/loading.dart';
 import 'package:meal_prep_app/models/recipeData.dart';
 import 'package:meal_prep_app/screens/dayView.dart/components/mealCard.dart';
@@ -7,7 +8,6 @@ import 'package:url_launcher/url_launcher.dart';
 
 class DayView extends StatefulWidget {
   final String name;
-  // DayView(this.name, this.inputDay, this.inputTime, this.inputMeal);
   DayView(this.name);
   // Second Constructor
   // DayView.input(this.name, this.inputDay, this.inputTime, this.inputMeal);
@@ -45,11 +45,10 @@ class _DayViewState extends State<DayView> {
       print('setdata2');
       data3 = instance3;
       data4 = instance4;
-    });
 
-    // setState(() {
-    //   data = instance;
-    // });
+      DayCard.dayToImageMap[widget.name] = data.url;
+      // print(DayCard.dayToImageMap[widget.name]);
+    });
   }
 
   @override
@@ -72,21 +71,15 @@ class _DayViewState extends State<DayView> {
     });
   }
 
-  _launchURL() async {
-    if (await canLaunch(data.url)) {
-      await launch(data.url);
-    } else {
-      throw 'Could not launch ${data.url}';
-    }
-    // await launch(data.url);
-  }
-
   List<Widget> generateMealCards() {
     List<Widget> children = [];
     print(data2.name);
-    children.add(MealCard(name: data2.label, data: data2));
-    children.add(MealCard(name: data3.label, data: data3));
-    children.add(MealCard(name: data4.label, data: data4));
+    children.add(
+        MealCard(name: data2.label, data: data2, dayOfTheWeek: widget.name));
+    children.add(
+        MealCard(name: data3.label, data: data3, dayOfTheWeek: widget.name));
+    children.add(
+        MealCard(name: data4.label, data: data4, dayOfTheWeek: widget.name));
     return children;
   }
 
@@ -130,7 +123,7 @@ class _DayViewState extends State<DayView> {
                         textStyle: const TextStyle(fontSize: 20),
                       ),
                       onPressed: () {
-                        _launchURL();
+                        _launchURL(data.url);
                       },
                       child: Text('${data.label}'),
                     ),
@@ -201,5 +194,13 @@ class ScrollNeighbors extends StatelessWidget {
   Widget build(BuildContext context) {
     return SingleChildScrollView(
         scrollDirection: Axis.horizontal, child: Row(children: children));
+  }
+}
+
+_launchURL(String url) async {
+  if (await canLaunch(url)) {
+    await launch(url);
+  } else {
+    throw 'Could not launch ${url}';
   }
 }

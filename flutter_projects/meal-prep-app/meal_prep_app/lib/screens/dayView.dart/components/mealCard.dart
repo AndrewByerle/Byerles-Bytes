@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:meal_prep_app/models/recipeData.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class MealCard extends StatelessWidget {
   final String name;
   final RecipeData data;
+  final String dayOfTheWeek;
 
-  MealCard({this.name, this.data});
+  MealCard({this.name, this.data, this.dayOfTheWeek});
 
   @override
   Widget build(BuildContext context) {
@@ -41,16 +43,20 @@ class MealCard extends StatelessWidget {
                         color: Colors.transparent,
                         child: InkWell(
                           onTap: () {
-                            // Navigator.push(
-                            //     context,
-                            //     MaterialPageRoute(
-                            //         builder: (context) =>
-                            //             CountryInfo(code: code)));
+                            _launchURL(data.url);
                           },
                         )))
               ],
             ),
           ),
         ));
+  }
+}
+
+_launchURL(String url) async {
+  if (await canLaunch(url)) {
+    await launch(url);
+  } else {
+    throw 'Could not launch ${url}';
   }
 }

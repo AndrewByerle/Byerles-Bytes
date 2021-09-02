@@ -5,12 +5,36 @@ import 'package:meal_prep_app/screens/weekView/components/popupCard.dart';
 class DayCard extends StatefulWidget {
   final String name;
   const DayCard({this.name});
+  // static so imgUrl can be accessed from other class
+
+  // Maps Day of week to an imageUrl
+  static Map dayToImageMap = {};
 
   @override
   _DayCardState createState() => _DayCardState();
 }
 
 class _DayCardState extends State<DayCard> {
+  Widget dayOfWeekCardBody() {
+    // if (DayCard.dayToImageMap != null &&
+    //     DayCard.dayToImageMap[widget.name] != null) {
+    //   return Image(
+    //       image: NetworkImage(DayCard.dayToImageMap[widget.name]),
+    //       fit: BoxFit.fill,
+    //       height: 85,
+    //       width: 160);
+    // }
+    return Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+      Container(
+          width: 140,
+          child: Text(widget.name,
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                  fontSize: widget.name == '+' ? (40) : (16),
+                  fontWeight: FontWeight.bold)))
+    ]);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -23,19 +47,19 @@ class _DayCardState extends State<DayCard> {
             width: 160,
             child: Stack(
               children: [
-                Positioned.fill(
-                  child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Container(
-                            width: 140,
-                            child: Text(widget.name,
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                    fontSize: widget.name == '+' ? (40) : (16),
-                                    fontWeight: FontWeight.bold)))
-                      ]),
-                ),
+                Positioned.fill(child: dayOfWeekCardBody()
+                    // child: Column(
+                    //     mainAxisAlignment: MainAxisAlignment.center,
+                    //     children: [
+                    //       Container(
+                    //           width: 140,
+                    //           child: Text(widget.name,
+                    //               textAlign: TextAlign.center,
+                    //               style: TextStyle(
+                    //                   fontSize: widget.name == '+' ? (40) : (16),
+                    //                   fontWeight: FontWeight.bold)))
+                    //     ]),
+                    ),
                 Positioned.fill(
                     child: Material(
                         color: Colors.transparent,
