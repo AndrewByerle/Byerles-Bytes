@@ -9,44 +9,23 @@ import 'package:url_launcher/url_launcher.dart';
 class DayView extends StatefulWidget {
   final String name;
   DayView(this.name);
-  // Second Constructor
-  // DayView.input(this.name, this.inputDay, this.inputTime, this.inputMeal);
 
   @override
   _DayViewState createState() => _DayViewState();
 }
 
 class _DayViewState extends State<DayView> {
-  // String inputDay = "";
   String inputTime = "";
   String inputMeal = "";
   RecipeData data;
-  RecipeData data2;
-  RecipeData data3;
-  RecipeData data4;
 
   Future<void> fetchData() async {
     RecipeData instance = new RecipeData(query: dayInfo[widget.name][1]);
     await instance.getData(0);
 
-    RecipeData instance2 = new RecipeData(query: dayInfo[widget.name][1]);
-    await instance2.getData(1);
-
-    RecipeData instance3 = new RecipeData(query: dayInfo[widget.name][1]);
-    await instance3.getData(2);
-
-    RecipeData instance4 = new RecipeData(query: dayInfo[widget.name][1]);
-    await instance4.getData(3);
-
     setState(() {
       data = instance;
-      print('setdata');
-      data2 = instance2;
-      print('setdata2');
-      data3 = instance3;
-      data4 = instance4;
-
-      DayCard.dayToImageMap[widget.name] = data.url;
+      DayCard.dayToImageMap[widget.name] = data.getUrl(0);
       // print(DayCard.dayToImageMap[widget.name]);
     });
   }
@@ -73,13 +52,21 @@ class _DayViewState extends State<DayView> {
 
   List<Widget> generateMealCards() {
     List<Widget> children = [];
-    print(data2.name);
-    children.add(
-        MealCard(name: data2.label, data: data2, dayOfTheWeek: widget.name));
-    children.add(
-        MealCard(name: data3.label, data: data3, dayOfTheWeek: widget.name));
-    children.add(
-        MealCard(name: data4.label, data: data4, dayOfTheWeek: widget.name));
+    children.add(MealCard(
+        name: data.getLabel(1),
+        image: data.getImage(1),
+        url: data.getUrl(1),
+        dayOfTheWeek: widget.name));
+    children.add(MealCard(
+        name: data.getLabel(2),
+        image: data.getImage(2),
+        url: data.getUrl(2),
+        dayOfTheWeek: widget.name));
+    children.add(MealCard(
+        name: data.getLabel(1),
+        image: data.getImage(3),
+        url: data.getUrl(3),
+        dayOfTheWeek: widget.name));
     return children;
   }
 
@@ -89,7 +76,7 @@ class _DayViewState extends State<DayView> {
         child: Column(
           children: [
             Image(
-                image: NetworkImage(data.image),
+                image: NetworkImage(data.getImage(0)),
                 fit: BoxFit.fill,
                 width: double.maxFinite,
                 // scale img height
@@ -123,9 +110,9 @@ class _DayViewState extends State<DayView> {
                         textStyle: const TextStyle(fontSize: 20),
                       ),
                       onPressed: () {
-                        _launchURL(data.url);
+                        _launchURL(data.getUrl(0));
                       },
-                      child: Text('${data.label}'),
+                      child: Text(data.getLabel(0)),
                     ),
                   ],
                 ),
@@ -153,12 +140,11 @@ class _DayViewState extends State<DayView> {
                 ),
                 Text("Calories:", style: TextStyle(fontSize: 24)),
                 SizedBox(width: 28),
-                Text('${data.calories}',
+                Text(data.getCalories(0),
                     style: TextStyle(color: Colors.black, fontSize: 24))
               ],
             ),
             ScrollNeighbors(children: generateMealCards()),
-            // MealCard(name: data2.label, data: data2)
           ],
         ),
       );

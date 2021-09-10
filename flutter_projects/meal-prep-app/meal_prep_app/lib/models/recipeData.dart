@@ -10,6 +10,7 @@ class RecipeData {
   String label;
   String url;
   int page;
+  Map mapData;
 
   RecipeData({this.query, this.page});
 
@@ -25,19 +26,36 @@ class RecipeData {
           'https://api.edamam.com/search?q=${query}&app_id=${APP_ID}&app_key=${APP_KEY}'));
 
       Map data = jsonDecode(response.body);
-
-      //Set Fields
-      image = data["hits"][page]["recipe"]["image"];
-      label = data["hits"][page]["recipe"]["label"];
-
-      url = data["hits"][page]["recipe"]["url"];
-      String longDecimalCalories = data["hits"][page]["recipe"]
-              ["totalNutrients"]["ENERC_KCAL"]["quantity"]
-          .toString();
-      calories = longDecimalCalories.split(".")[0];
-      print(calories);
+      mapData = data;
     } catch (e) {
       print(e);
     }
+  }
+
+  String getImage(int page) {
+    return mapData["hits"][page]["recipe"]["image"];
+  }
+
+  String getLabel(int page) {
+    if (mapData["hits"][page]["recipe"]["label"] != null) {
+      return mapData["hits"][page]["recipe"]["label"];
+    }
+    print("label not printed");
+    return "";
+  }
+
+  String getUrl(int page) {
+    if (mapData["hits"][page]["recipe"]["url"] != null) {
+      return mapData["hits"][page]["recipe"]["url"];
+    }
+    return "";
+  }
+
+  String getCalories(int page) {
+    String longDecimalCalories = mapData["hits"][page]["recipe"]
+            ["totalNutrients"]["ENERC_KCAL"]["quantity"]
+        .toString();
+    calories = longDecimalCalories.split(".")[0];
+    return calories;
   }
 }

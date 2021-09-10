@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:meal_prep_app/models/recipeData.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class MealCard extends StatelessWidget {
   final String name;
-  final RecipeData data;
+  final String image;
+  final String url;
   final String dayOfTheWeek;
 
-  MealCard({this.name, this.data, this.dayOfTheWeek});
+  MealCard({this.name, this.image, this.url, this.dayOfTheWeek});
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +25,7 @@ class MealCard extends StatelessWidget {
                   child: Column(
                     children: [
                       Image(
-                          image: NetworkImage(data.image),
+                          image: NetworkImage(image),
                           fit: BoxFit.fill,
                           height: 85,
                           width: 160),
@@ -43,7 +43,7 @@ class MealCard extends StatelessWidget {
                         color: Colors.transparent,
                         child: InkWell(
                           onTap: () {
-                            _launchURL(data.url);
+                            _launchURL(url);
                           },
                         )))
               ],

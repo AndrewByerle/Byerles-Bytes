@@ -47,19 +47,7 @@ class _DayCardState extends State<DayCard> {
             width: 160,
             child: Stack(
               children: [
-                Positioned.fill(child: dayOfWeekCardBody()
-                    // child: Column(
-                    //     mainAxisAlignment: MainAxisAlignment.center,
-                    //     children: [
-                    //       Container(
-                    //           width: 140,
-                    //           child: Text(widget.name,
-                    //               textAlign: TextAlign.center,
-                    //               style: TextStyle(
-                    //                   fontSize: widget.name == '+' ? (40) : (16),
-                    //                   fontWeight: FontWeight.bold)))
-                    //     ]),
-                    ),
+                Positioned.fill(child: dayOfWeekCardBody()),
                 Positioned.fill(
                     child: Material(
                         color: Colors.transparent,
