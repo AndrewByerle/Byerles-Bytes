@@ -25,8 +25,8 @@ class _DayViewState extends State<DayView> {
 
     setState(() {
       data = instance;
-      DayCard.dayToImageMap[widget.name] = data.getUrl(0);
-      // print(DayCard.dayToImageMap[widget.name]);
+      DayCard.dayToImageMap[widget.name] = data.getImage(0);
+      print(DayCard.dayToImageMap[widget.name]);
     });
   }
 
@@ -43,7 +43,6 @@ class _DayViewState extends State<DayView> {
   void getDayViewInput() {
     dayInfo.forEach((key, value) {
       if (key == widget.name) {
-        // Had setState in here previously
         inputTime = value[0];
         inputMeal = value[1];
       }

@@ -48,6 +48,7 @@ class RecipeData {
     if (mapData["hits"][page]["recipe"]["url"] != null) {
       return mapData["hits"][page]["recipe"]["url"];
     }
+    print("Url not printed");
     return "";
   }
 
