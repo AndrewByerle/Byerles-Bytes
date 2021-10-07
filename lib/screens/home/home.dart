@@ -14,11 +14,31 @@ class Home extends StatelessWidget {
         Center(child: GradientBackground()),
         SingleChildScrollView(
           child: Column(
-            children: [Title(), SizedBox(height: 400), StartButton()],
+            children: [
+              Title(),
+              SubHeader(),
+              SizedBox(height: 400),
+              StartButton()
+            ],
           ),
         ),
       ],
     ));
+  }
+}
+
+class SubHeader extends StatelessWidget {
+  const SubHeader({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(12.0),
+      child: Text("Meal Planner",
+          style: TextStyle(color: Colors.white, fontSize: 26)),
+    );
   }
 }
 
@@ -59,8 +79,8 @@ class Title extends StatelessWidget {
       children: [
         Padding(
             padding: EdgeInsets.fromLTRB(0, 125, 0, 0),
-            child: Text('Meal Planner',
-                style: TextStyle(color: Colors.white, fontSize: 50)))
+            child: Text("Byerle's Bytes",
+                style: TextStyle(color: Colors.white, fontSize: 50))),
       ],
     );
   }

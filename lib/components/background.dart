@@ -13,12 +13,12 @@ class GradientBackground extends StatelessWidget {
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
                 colors: [
-          Colors.pinkAccent,
+          // Colors.pinkAccent,
           Colors.blue[900],
           // Colors.green[800],
           // Colors.lightGreen,
           // Colors.green[800],
-          Colors.blue
+          Colors.blue[400]
         ])));
   }
 }
